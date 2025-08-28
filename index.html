@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HorizonSync - Turn time zones into your competitive advantage</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+</head>
+<body>
+    <div id="app-container">
+        <header class="app-header">
+            <div class="header-left">
+                <div class="app-logo">
+                    <i class="ti ti-world"></i>
+                    <h1 class="app-title" data-i18n="appTitle">HorizonSync</h1>
+                </div>
+            </div>
+            
+            <nav class="desktop-nav">
+                <button class="nav-btn active" data-section="dashboard">
+                    <i class="ti ti-dashboard"></i>
+                    <span data-i18n="dashboard">Dashboard</span>
+                </button>
+                <button class="nav-btn" data-section="workflow">
+                    <i class="ti ti-flow"></i>
+                    <span data-i18n="workflow">Workflow Canvas</span>
+                </button>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="action-btn primary" id="add-team-btn">
+                    <i class="ti ti-user-plus"></i>
+                    <span data-i18n="addTeamMember">Add Team</span>
+                </button>
+                <button class="action-btn secondary" id="settings-btn">
+                    <i class="ti ti-settings"></i>
+                </button>
+                <button class="action-btn secondary mobile-only" id="hamburger-btn">
+                    <i class="ti ti-menu-2"></i>
+                </button>
+            </div>
+        </header>
+
+        <nav class="mobile-nav hidden" id="mobile-nav">
+            <div class="mobile-nav-header">
+                <h3 data-i18n="navigation">Navigation</h3>
+                <button class="close-mobile-nav" id="close-mobile-nav">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="#" class="mobile-nav-link" data-section="dashboard">
+                    <i class="ti ti-dashboard"></i>
+                    <span data-i18n="dashboard">Dashboard</span>
+                </a>
+                <a href="#" class="mobile-nav-link" data-section="workflow">
+                    <i class="ti ti-flow"></i>
+                    <span data-i18n="workflow">Workflow Canvas</span>
+                </a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <section class="content-section active" id="dashboard-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="ti ti-clock-24"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="coverage-hours">16</div>
+                            <div class="stat-label" data-i18n="coverageHours">Coverage Hours</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="ti ti-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="team-locations">3</div>
+                            <div class="stat-label" data-i18n="teamLocations">Team Locations</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="ti ti-transfer"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="handoff-score">85%</div>
+                            <div class="stat-label" data-i18n="handoffEfficiency">Handoff Efficiency</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="ti ti-trending-up"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="productivity-score">92%</div>
+                            <div class="stat-label" data-i18n="productivityScore">Productivity Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2 data-i18n="globalTeamClocks">Global Team Clocks</h2>
+                    <button class="add-location-btn" id="add-location-btn">
+                        <i class="ti ti-plus"></i>
+                        <span data-i18n="addLocation">Add Location</span>
+                    </button>
+                </div>
+                <div class="clocks-grid" id="clocks-grid">
+                    <div class="clock-card local">
+                        <div class="clock-header">
+                            <div class="location-info">
+                                <h3 class="city-name">Taipei</h3>
+                                <span class="timezone-info">GMT+8 • Local</span>
+                            </div>
+                            <div class="clock-actions">
+                                <button class="clock-action-btn">
+                                    <i class="ti ti-settings"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="time-display">
+                            <span class="time">14:30</span>
+                            <span class="period">PM</span>
+                        </div>
+                        <div class="date-display">Wednesday, March 15, 2024</div>
+                        <div class="work-status active">
+                            <div class="status-indicator"></div>
+                            <span>Work Hours (9:00 - 18:00)</span>
+                        </div>
+                        <div class="team-info">
+                            <span class="role">Development Team</span>
+                            <span class="team-size">5 members</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-assistant-section">
+                    <div class="ai-header">
+                        <div class="ai-title">
+                            <i class="ti ti-brain"></i>
+                            <h3 data-i18n="aiWorkflowAssistant">AI Workflow Assistant</h3>
+                        </div>
+                        <div class="ai-status">
+                            <span class="status-dot active"></span>
+                            <span data-i18n="aiReady">AI Ready</span>
+                        </div>
+                    </div>
+                    <div class="ai-input-container">
+                        <div class="ai-input-wrapper">
+                            <i class="ti ti-sparkles"></i>
+                            <input type="text" id="ai-input" placeholder="Ask about team optimization, hiring locations, or workflow improvements..." data-i18n-placeholder="aiPlaceholder">
+                            <button class="ai-submit-btn" id="ai-submit">
+                                <i class="ti ti-send"></i>
+                            </button>
+                        </div>
+                        <div class="ai-suggestions">
+                            <span class="suggestion-label" data-i18n="quickSuggestions">Quick suggestions:</span>
+                            <button class="suggestion-chip" data-prompt="How can I achieve 24-hour development coverage?">
+                                <span data-i18n="suggestion1">24-hour coverage</span>
+                            </button>
+                            <button class="suggestion-chip" data-prompt="Where should I hire my next QA engineer?">
+                                <span data-i18n="suggestion2">Next hire location</span>
+                            </button>
+                            <button class="suggestion-chip" data-prompt="Optimize our current workflow handoffs">
+                                <span data-i18n="suggestion3">Optimize handoffs</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ai-response-area hidden" id="ai-response">
+                        </div>
+                </div>
+            </section>
+
+            <section class="content-section" id="workflow-section">
+                <div class="workflow-header">
+                    <div class="workflow-title">
+                        <h2 data-i18n="workflowCanvas">Workflow Canvas</h2>
+                        <p data-i18n="workflowDescription">Visual team workflow mapping and process optimization</p>
+                    </div>
+                </div>
+
+                <div class="pluto-container">
+                    <div id="workflow-canvas-container">
+                        <svg id="workflow-canvas" width="100%" height="100%">
+                            <defs></defs>
+                            <g id="workflow-viewport">
+                                <g id="workflow-connections-layer"></g>
+                                <g id="workflow-cards-layer"></g>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div id="workflow-toolbar">
+                        <button id="add-workflow-card" title="Add Workflow Card">
+                            <i class="ti ti-plus"></i>
+                        </button>
+                        <button id="connect-workflow-mode" title="Connect Cards">
+                            <i class="ti ti-link"></i>
+                        </button>
+                        <button id="delete-workflow-connection-mode" title="Delete Connection">
+                            <i class="ti ti-unlink"></i>
+                        </button>
+                        <button id="add-team-card" title="Add Team Location Card">
+                            <i class="ti ti-users"></i>
+                        </button>
+                        <button id="toggle-workflow-grid" title="Toggle Grid">
+                            <i class="ti ti-border-all"></i>
+                        </button>
+                        <button id="export-workflow" title="Export Workflow">
+                            <i class="ti ti-download"></i>
+                        </button>
+                        <button id="import-workflow" title="Import Workflow">
+                            <i class="ti ti-upload"></i>
+                        </button>
+                        <button id="clear-workflow" title="Clear Canvas">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </div>
+
+                    <input type="file" id="import-workflow-input" class="hidden-input" accept=".json">
+                </div>
+
+                <div class="workflow-insights-panel">
+                    <h3 data-i18n="workflowInsights">Workflow Insights</h3>
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <div class="insight-metric">
+                                <span class="metric-value" id="workflow-cards-count">0</span>
+                                <span class="metric-label" data-i18n="workflowCards">Process Cards</span>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-metric">
+                                <span class="metric-value" id="workflow-connections-count">0</span>
+                                <span class="metric-label" data-i18n="workflowConnections">Connections</span>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-metric">
+                                <span class="metric-value" id="workflow-teams-count">0</span>
+                                <span class="metric-label" data-i18n="workflowTeams">Team Cards</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-suggestions" id="workflow-suggestions">
+                        <div class="suggestion-item">
+                            <i class="ti ti-lightbulb"></i>
+                            <span data-i18n="workflowTip">Tip: Connect team cards to show handoff processes and workflow dependencies</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal-overlay hidden" id="add-team-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 data-i18n="addTeamMemberTitle">Add Team Member</h3>
+                <button class="modal-close">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <form id="add-team-form">
+                    <div class="form-group">
+                        <label data-i18n="location">Location</label>
+                        <div class="location-search">
+                            <input type="text" id="location-input" placeholder="Search for city or timezone..." data-i18n-placeholder="locationPlaceholder">
+                            <div class="location-suggestions" id="location-suggestions"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="role">Role/Department</label>
+                        <select id="role-select">
+                            <option value="development">Development</option>
+                            <option value="qa">QA/Testing</option>
+                            <option value="design">Design</option>
+                            <option value="support">Support</option>
+                            <option value="management">Management</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-i18n="teamSize">Team Size</label>
+                            <input type="number" id="team-size" min="1" max="50" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="workHours">Work Hours</label>
+                            <div class="time-range">
+                                <select id="start-hour">
+                                    </select>
+                                <span>-</span>
+                                <select id="end-hour">
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button class="btn secondary" data-action="cancel">Cancel</button>
+                <button class="btn primary" data-action="add">Add Team Member</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay hidden" id="settings-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 data-i18n="settings">Settings</h3>
+                <button class="modal-close">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="settings-section">
+                    <h4 data-i18n="appearance">Appearance</h4>
+                    <div class="setting-item">
+                        <label data-i18n="theme">Theme</label>
+                        <div class="theme-toggle" id="theme-toggle">
+                            <button class="theme-btn active" data-theme="light">
+                                <i class="ti ti-sun"></i>
+                            </button>
+                            <button class="theme-btn" data-theme="dark">
+                                <i class="ti ti-moon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label data-i18n="language" style="width: 140px;">Language</label>
+                        <select id="language-select">
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="ja">日本語</option>
+                            <option value="zh-Hant">中文 (繁體)</option>
+                            <option value="ar">العربية</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label data-i18n="timeFormat" style="width: 140px;">Time Format</label>
+                        <select id="time-format-select">
+                            <option value="12">12 Hour</option>
+                            <option value="24">24 Hour</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h4 data-i18n="preferences">Preferences</h4>
+                    <div class="setting-item">
+                        <label data-i18n="notifications">Notifications</label>
+                        <div class="toggle-switch" id="notifications-toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label data-i18n="aiSuggestions">AI Suggestions</label>
+                        <div class="toggle-switch" id="ai-toggle">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h4 data-i18n="data">Data</h4>
+                    <div class="setting-actions">
+                        <button class="btn secondary" id="export-btn">
+                            <i class="ti ti-download"></i>
+                            <span data-i18n="exportData">Export Data</span>
+                        </button>
+                        <button class="btn secondary" id="import-btn">
+                            <i class="ti ti-upload"></i>
+                            <span data-i18n="importData">Import Data</span>
+                        </button>
+                        <button class="btn danger" id="clear-data-btn">
+                            <i class="ti ti-trash"></i>
+                            <span data-i18n="clearData">Clear All Data</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay hidden" id="add-event-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 data-i18n="addEventTitle">Add Event</h3>
+                <button class="modal-close">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <form id="add-event-form">
+                    <div class="form-group">
+                        <label data-i18n="eventTitle">Event Title</label>
+                        <input type="text" id="event-title" placeholder="Enter event title..." required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-i18n="date">Date</label>
+                            <input type="date" id="event-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="timezone">Timezone</label>
+                            <select id="event-timezone" required>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-i18n="startTime">Start Time</label>
+                            <input type="time" id="event-start-time" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="endTime">End Time</label>
+                            <input type="time" id="event-end-time" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="attendees">Attendees (Locations)</label>
+                        <div class="attendees-selector" id="attendees-selector">
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="description">Description</label>
+                        <textarea id="event-description" rows="3" placeholder="Enter event description..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button class="btn secondary" data-action="cancel">Cancel</button>
+                <button class="btn primary" data-action="add">Add Event</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="loading-spinner">
+            <i class="ti ti-loader-2"></i>
+        </div>
+        <div class="loading-text">Processing...</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
